@@ -1,8 +1,9 @@
-import json
+import json, os
 import amazon_products.product_status as pstatus
 from amazon_products.product import Product
 from data_services.mapstore import KVDiskStore
 from data_services.queue import KafkaTopicQueue
+from urllib3 import PoolManager
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -18,17 +19,21 @@ product_status_db = KVDiskStore("product_status",
                       deserialize=pstatus.json2product
                       )
 
+pool = PoolManager()
+AGGREGATOR_URL=os.environ.get("AGGREGATOR_URL", "localhost:5555")
+def get_latest_k_words(): 
+  return pool.urlopen('GET', AGGREGATOR_URL).data
 
 @app.route('/')
 def default():
     #get currnet time
     cur_time = pstatus.timestamp_now()
 
-    #TODO: GET CURRENT TOP WORDS
+    latest_words = get_latest_k_words()
 
     if "product_url" not in request.args:  
     # todo if product_id is not here, simply display the current words
-      return "TODO"
+      return latest_words
     
     # extract product id from request
     purl = request.args['product_url']

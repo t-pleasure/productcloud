@@ -1,4 +1,4 @@
-import time, json, sys
+import time, json, sys, os
 from amazon_products.product import Product
 from amazon_products.product_status import Types, CompletedStatus, ProcessingStatus, json2product
 from data_services.mapstore import KVDiskStore, WordCountDisk
@@ -19,9 +19,9 @@ pid_to_wordcount_db = KVDiskStore("pid_to_wordcount",
 global_wordcount_db = WordCountDisk("global_word_count")
 
 pool = PoolManager()
-AGGREGATOR_URL="localhost:5555"
+AGGREGATOR_URL=os.environ.get("AGGREGATOR_URL", "localhost:5555")
 def send_to_aggregator(wcount):
-  pool.urlopen('POST', AGGREGATOR_URL, 
+  pool.urlopen('POST', AGGREGATOR_URL+"/update", 
                headers={'Content-Type':'application/json'}, 
                body=json.dumps(wcount))
 
