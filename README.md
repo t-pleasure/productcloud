@@ -24,8 +24,12 @@ python http_api.py --port 8080 --topics Q1 Q2 &> $DEBUG_DIR/http.log &
 ```
 
 ## Dependencies
-Flask
-kafka-python
-lsm-db
-pqdict
-urllib3
+* Flask
+
+* kafka-python
+
+* lsm-db
+
+* pqdict
+
+* urllib3
