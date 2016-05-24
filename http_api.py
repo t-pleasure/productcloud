@@ -24,16 +24,13 @@ AGGREGATOR_URL=os.environ.get("AGGREGATOR_URL", "localhost:5555")
 def get_latest_k_words(): 
   return pool.urlopen('GET', AGGREGATOR_URL).data
 
-@app.route('/')
+@app.route('/', methods=["GET","POST"])
 def default():
-    #get currnet time
+    #get current time
     cur_time = pstatus.timestamp_now()
 
-    latest_words = get_latest_k_words()
-
     if "product_url" not in request.args:  
-    # todo if product_id is not here, simply display the current words
-      return latest_words
+      return get_latest_k_words()
     
     # extract product id from request
     purl = request.args['product_url']
@@ -58,6 +55,10 @@ def default():
       product_status_db.put(pid, pstatus.Invalid(pid))
       return json.dumps({"status": "INVALID_PRODUCT_ID"})
       
+
+@app.route('/product_status')
+def info():
+    return str(product_status_db.items())
 
 if __name__ == '__main__':
     app.debug = True
