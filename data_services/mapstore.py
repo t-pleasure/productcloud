@@ -23,7 +23,7 @@ class KVDiskStore:
 
   def items_gen(self):
     for (k,v) in self.db:
-      yield (k,self.deserialize(v))
+      yield (k, self.deserialize(v))
 
   def items(self):
     return [_ for _ in self.items_gen()]

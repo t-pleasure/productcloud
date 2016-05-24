@@ -37,6 +37,9 @@ class ProductStatus:
       "type": self.type,
       "time_stamp": self.time_stamp})
 
+  def __repr__(self):
+    return self.tojson()
+
 
 class InvalidStatus(ProductStatus):
   def __init__(self, pid, time_stamp=None):
