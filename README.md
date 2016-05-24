@@ -1,7 +1,7 @@
 # productcloud
 
 ## Single Machine, Single Process:
-```
+```bash
 # see:
 python simple_solution_api.py
 ```
@@ -12,7 +12,7 @@ python simple_solution_api.py
 # start aggregator daemon
 python word_aggregator.py --port 5555 &> $DEBUG_DIR/agg.log &
 
-# start queues
+# start queue consumers
 python queue_consumer.py --topic=Q1 &> $DEBUG_DIR/q1.log &
 python queue_consumer.py --topic=Q2 &> $DEBUG_DIR/q2.log &
  
