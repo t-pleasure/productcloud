@@ -9,6 +9,9 @@ python simple_solution_api.py
 ## Mocking Distributed System:
 
 ```bash
+## 
+# YOU MUST START KAFKA LOCALLY (assuming on port 9092)
+
 # start aggregator daemon
 python word_aggregator.py --port 5555 &> $DEBUG_DIR/agg.log &
 
@@ -19,3 +22,10 @@ python queue_consumer.py --topic=Q2 &> $DEBUG_DIR/q2.log &
 # start http api
 python http_api.py --port 8080 --topics Q1 Q2 &> $DEBUG_DIR/http.log &
 ```
+
+## Dependencies
+Flask
+kafka-python
+lsm-db
+pqdict
+urllib3
